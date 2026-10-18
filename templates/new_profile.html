@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Create profile - StudyBuddy{% endblock %}
+{% block content %}
+<h1>Create your profile</h1>
+
+<form method="post" class="form">
+  <label>Name
+    <input name="name" placeholder="Krishiv" required>
+  </label>
+  <label>Courses (comma separated)
+    <input name="courses" placeholder="CSCI-UA 310, CSCI-UA 474" required>
+  </label>
+  <label>Availability
+    <input name="availability" placeholder="Weeknights after 6, Sat mornings" required>
+  </label>
+  <label>About you
+    <textarea name="bio" rows="3" placeholder="What you like to study and how you work"></textarea>
+  </label>
+  <button type="submit">Save profile</button>
+</form>
+{% endblock %}

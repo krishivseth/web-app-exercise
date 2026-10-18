@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ person.name }} - StudyBuddy{% endblock %}
+{% block content %}
+<a class="back" href="{{ url_for('profile_list') }}">Back to people</a>
+<h1>{{ person.name }}</h1>
+
+<h2>Courses</h2>
+<p>
+  {% for c in person.courses %}<span class="tag">{{ c }}</span> {% endfor %}
+</p>
+
+<h2>Availability</h2>
+<p>{{ person.availability }}</p>
+
+{% if person.bio %}
+<h2>About</h2>
+<p>{{ person.bio }}</p>
+{% endif %}
+
+<h2>Sessions posted</h2>
+{% if posted %}
+<ul class="cards">
+  {% for item in posted %}
+  <li class="card">
+    <a href="{{ url_for('request_detail', request_id=item._id) }}">
+      <span class="tag">{{ item.course }}</span>
+      <strong>{{ item.topic }}</strong>
+      <span class="meta">{{ item.time }} at {{ item.location }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">None yet.</p>
+{% endif %}
+{% endblock %}
