@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Feed - StudyBuddy{% endblock %}
+{% block content %}
+<h1>Open study sessions</h1>
+
+{% if not items %}
+<p class="empty">Nothing posted yet. <a href="{{ url_for('new_request') }}">Post the first one.</a></p>
+{% endif %}
+
+<ul class="cards">
+  {% for item in items %}
+  <li class="card">
+    <a href="{{ url_for('request_detail', request_id=item._id) }}">
+      <span class="tag">{{ item.course }}</span>
+      <strong>{{ item.topic }}</strong>
+      <span class="meta">{{ item.time }} at {{ item.location }}</span>
+      <span class="meta">by {{ item.organizer_name }} with {{ item.joined_ids | length }} joined</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
