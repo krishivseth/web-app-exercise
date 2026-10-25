@@ -34,4 +34,7 @@
   </label>
   <button type="submit">Join this session</button>
 </form>
+<a href="{{ url_for('delete_request', request_id=item._id) }}" class="delete-link">
+  Delete this session
+</a>
 {% endblock %}

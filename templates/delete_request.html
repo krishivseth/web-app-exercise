@@ -1,0 +1,21 @@
+<p><strong>Topic:</strong> {{ item.topic }}</p>
+  <p><strong>When:</strong> {{ item.time }}</p>
+  <p><strong>Where:</strong> {{ item.location }}</p>
+
+  <p class="delete-warning">
+    This action cannot be undone.
+  </p>
+
+  <form method="POST">
+    <button type="submit" class="delete-button">
+      Yes, Delete Session
+    </button>
+  </form>
+
+  <a href="{{ url_for('request_detail', request_id=item._id) }}"
+     class="cancel-button">
+    Cancel
+  </a>
+</div>
+
+{% endblock %}
