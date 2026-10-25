@@ -41,9 +41,20 @@ def home():
 def new_request():
     people = list(profiles.find().sort("name", 1))
     if request.method == "POST":
+        description = request.form.get("description", "").strip()
+
+        try:
+            max_participants = int(request.form.get("max_participants", ""))
+        except ValueError:
+            abort(400)
+
+        if not 2 <= max_participants <= 20:
+            abort(400)
         doc = {
             "course": request.form["course"].strip().upper(),
             "topic": request.form["topic"].strip(),
+            "description": description,
+            "max_participants": max_participants,
             "time": request.form["time"].strip(),
             "location": request.form["location"].strip(),
             "organizer_id": oid(request.form["organizer_id"]),
