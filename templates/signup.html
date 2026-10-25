@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Create account - StudyBuddy{% endblock %}
+
+{% block content %}
+<h1>Create your account</h1>
+<p>Create an account and a study profile in one step.</p>
+
+{% if form.errors %}
+<div role="alert">
+  <p>Please fix the following:</p>
+  <ul>
+    {% for field_name, errors in form.errors.items() %}
+      {% for error in errors %}
+      <li>{{ form[field_name].label.text }}: {{ error }}</li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form method="post" class="form">
+  {{ form.hidden_tag() }}
+
+  {% for field in [
+    form.name,
+    form.email,
+    form.password,
+    form.confirm_password,
+    form.courses,
+    form.availability,
+    form.bio
+  ] %}
+  <label for="{{ field.id }}">
+    {{ field.label.text }}
+    {{ field() }}
+
+    {% if field.name == "courses" %}
+    <small id="courses-help" class="field-help">
+      Separate course codes with commas.
+    </small>
+    {% elif field.name == "password" %}
+    <small class="field-help">
+      Use 12–128 characters.
+    </small>
+    {% endif %}
+  </label>
+  {% endfor %}
+
+  <button type="submit">Create account</button>
+</form>
+{% endblock %}

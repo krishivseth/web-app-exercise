@@ -1,4 +1,12 @@
-<p><strong>Topic:</strong> {{ item.topic }}</p>
+{% extends "base.html" %}
+
+{% block title %}Delete session - StudyBuddy{% endblock %}
+
+{% block content %}
+<h1>Delete this session?</h1>
+
+<div class="delete-confirmation">
+  <p><strong>Topic:</strong> {{ item.topic }}</p>
   <p><strong>When:</strong> {{ item.time }}</p>
   <p><strong>Where:</strong> {{ item.location }}</p>
 
@@ -6,7 +14,8 @@
     This action cannot be undone.
   </p>
 
-  <form method="POST">
+  <form method="post">
+    {{ form.hidden_tag() }}
     <button type="submit" class="delete-button">
       Yes, Delete Session
     </button>
@@ -17,5 +26,4 @@
     Cancel
   </a>
 </div>
-
 {% endblock %}
