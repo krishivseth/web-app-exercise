@@ -74,6 +74,18 @@ def join_request(request_id):
     requests.update_one({"_id": oid(request_id)}, {"$addToSet": {"joined_ids": pid}})
     return redirect(url_for("request_detail", request_id=request_id))
 
+@app.route("/requests/<request_id>/delete", methods=["GET", "POST"])
+def delete_request(request_id):
+    item = requests.find_one({"_id": oid(request_id)})
+
+    if item is None:
+        abort(404)
+
+    if request.method == "POST":
+        requests.delete_one({"_id": item["_id"]})
+        return redirect(url_for("home"))
+
+    return render_template("delete_request.html", item=item)
 
 @app.route("/profiles")
 def profile_list():
