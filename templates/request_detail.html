@@ -23,7 +23,11 @@
 {% else %}
 <p class="empty">Nobody has joined yet.</p>
 {% endif %}
+{% for p in joined if p._id | string == request.args.get('joined') %}
+<p class="tag">You joined as {{ p.name }}</p>
+{% endfor %}
 
+{% if people %}
 <form method="post" action="{{ url_for('join_request', request_id=item._id) }}" class="form">
   <label>Join as
     <select name="profile_id" required>
@@ -34,4 +38,7 @@
   </label>
   <button type="submit">Join this session</button>
 </form>
+{% else %}
+<p class="empty">Everyone has joined this session.</p>
+{% endif %}
 {% endblock %}

@@ -62,7 +62,7 @@ def request_detail(request_id):
         abort(404)
     organizer = profiles.find_one({"_id": item["organizer_id"]})
     joined = list(profiles.find({"_id": {"$in": item.get("joined_ids", [])}}))
-    people = list(profiles.find().sort("name", 1))
+    people = list(profiles.find({"_id": {"$nin": item.get("joined_ids", []) + [item["organizer_id"]]}}).sort("name", 1))
     return render_template(
         "request_detail.html", item=item, organizer=organizer, joined=joined, people=people
     )
@@ -72,7 +72,7 @@ def request_detail(request_id):
 def join_request(request_id):
     pid = oid(request.form["profile_id"])
     requests.update_one({"_id": oid(request_id)}, {"$addToSet": {"joined_ids": pid}})
-    return redirect(url_for("request_detail", request_id=request_id))
+    return redirect(url_for("request_detail", request_id=request_id, joined=request.form["profile_id"]))
 
 
 @app.route("/profiles")
