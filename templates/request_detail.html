@@ -47,4 +47,10 @@
   <button type="submit">Join this session</button>
 </form>
 {% endif %}
+
+{% if is_organizer %}
+<a href="{{ url_for('delete_request', request_id=item._id) }}" class="delete-link">
+  Delete this session
+</a>
+{% endif %}
 {% endblock %}

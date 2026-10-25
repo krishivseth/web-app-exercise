@@ -22,7 +22,14 @@
 <form method="post" class="form">
   {{ form.hidden_tag() }}
 
-  {% for field in [form.course, form.topic, form.time, form.location] %}
+  {% for field in [
+      form.course,
+      form.topic,
+      form.description,
+      form.max_participants,
+      form.time,
+      form.location
+  ] %}
   <label for="{{ field.id }}">
     {{ field.label.text }}
     {{ field() }}

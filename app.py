@@ -10,7 +10,7 @@ from pymongo import MongoClient
 from flask_wtf import FlaskForm
 from pymongo.errors import DuplicateKeyError
 from werkzeug.security import generate_password_hash, check_password_hash
-from wtforms import EmailField, PasswordField, StringField, TextAreaField, DateTimeLocalField
+from wtforms import EmailField, PasswordField, StringField, TextAreaField, DateTimeLocalField, IntegerField
 from wtforms.validators import (
     DataRequired,
     Email,
@@ -19,6 +19,7 @@ from wtforms.validators import (
     Length,
     Optional,
     ValidationError,
+    NumberRange,
 )
 load_dotenv()
 
@@ -229,6 +230,19 @@ class NewRequestForm(FlaskForm):
         render_kw={"placeholder": "Problem set 5, dynamic programming"},
     )
 
+    description = TextAreaField(
+        "Description (optional)",
+        validators=[Optional()],
+        render_kw={"placeholder": "What will you be studying?"},
+    )
+
+    max_participants = IntegerField(
+        "Maximum Participants",
+        validators=[InputRequired(), NumberRange(min=2, max=20)],
+        default=5,
+        render_kw={"min": 2, "max": 20},
+    )
+
     time = DateTimeLocalField(
         "Date and time (New York)",
         format="%Y-%m-%dT%H:%M",
@@ -258,6 +272,9 @@ class NewRequestForm(FlaskForm):
 
 
 class JoinRequestForm(FlaskForm):
+    pass
+
+class DeleteRequestForm(FlaskForm):
     pass
 
 @app.route("/")
@@ -328,6 +345,8 @@ def new_request():
         doc = {
             "course": form.course.data.strip().upper(),
             "topic": form.topic.data.strip(),
+            "description": (form.description.data or "").strip(),
+            "max_participants": form.max_participants.data,
             "starts_at": starts_at,
             "time": local_time.strftime("%b %d, %Y at %I:%M %p %Z"),
             "location": form.location.data.strip(),
@@ -412,6 +431,32 @@ def join_request(request_id):
 
     return redirect(
         url_for("request_detail", request_id=session_id)
+    )
+
+@app.route("/requests/<request_id>/delete", methods=["GET", "POST"])
+@login_required
+def delete_request(request_id):
+    item = requests.find_one({"_id": oid(request_id)})
+
+    if item is None:
+        abort(404)
+
+    if item["organizer_id"] != ObjectId(current_user.id):
+        abort(403)
+
+    form = DeleteRequestForm()
+
+    if request.method == "POST":
+        if not form.validate_on_submit():
+            abort(400)
+
+        requests.delete_one({"_id": item["_id"]})
+        return redirect(url_for("home"))
+
+    return render_template(
+        "delete_request.html",
+        item=item,
+        form=form,
     )
 
 @app.route("/profiles")
