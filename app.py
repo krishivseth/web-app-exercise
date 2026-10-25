@@ -28,6 +28,15 @@ def split_courses(text):
     return [c.strip().upper() for c in text.split(",") if c.strip()]
 
 
+@app.template_filter("nice_time")
+def nice_time(value):
+    try:
+        when = datetime.strptime(value, "%Y-%m-%dT%H:%M")
+    except (TypeError, ValueError):
+        return value
+    return when.strftime("%a, %b %d at %I:%M %p").replace(" 0", " ")
+
+
 @app.route("/")
 def home():
     items = list(requests.find().sort("created_at", -1))
