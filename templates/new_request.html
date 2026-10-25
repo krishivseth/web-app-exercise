@@ -1,32 +1,34 @@
 {% extends "base.html" %}
-{% block title %}Post a session - StudyBuddy{% endblock %}
-{% block content %}
-<h1>Post a study session</h1>
 
-{% if not people %}
-<p class="empty">You need a profile first. <a href="{{ url_for('new_profile') }}">Create one.</a></p>
-{% else %}
-<form method="post" class="form">
-  <label>Course
-    <input name="course" placeholder="CSCI-UA 310" required>
-  </label>
-  <label>Topic
-    <input name="topic" placeholder="Problem set 5, dynamic programming" required>
-  </label>
-  <label>When
-    <input name="time" placeholder="Tue 7pm" required>
-  </label>
-  <label>Where
-    <input name="location" placeholder="Bobst 5th floor" required>
-  </label>
-  <label>Posting as
-    <select name="organizer_id" required>
-      {% for p in people %}
-      <option value="{{ p._id }}">{{ p.name }}</option>
+{% block title %}Create a session - StudyBuddy{% endblock %}
+
+{% block content %}
+<h1>Create a study session</h1>
+<p>Organizer: {{ current_user.name }}</p>
+
+{% if form.errors %}
+<div role="alert">
+  <p>Please fix the following:</p>
+  <ul>
+    {% for field_name, errors in form.errors.items() %}
+      {% for error in errors %}
+      <li>{{ form[field_name].label.text }}: {{ error }}</li>
       {% endfor %}
-    </select>
-  </label>
-  <button type="submit">Post</button>
-</form>
+    {% endfor %}
+  </ul>
+</div>
 {% endif %}
+
+<form method="post" class="form">
+  {{ form.hidden_tag() }}
+
+  {% for field in [form.course, form.topic, form.time, form.location] %}
+  <label for="{{ field.id }}">
+    {{ field.label.text }}
+    {{ field() }}
+  </label>
+  {% endfor %}
+
+  <button type="submit">Create session</button>
+</form>
 {% endblock %}

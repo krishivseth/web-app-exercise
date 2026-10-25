@@ -125,3 +125,43 @@ button, .button {
   font-weight: 600;
 }
 .tabs a.active { color: #57068c; }
+
+.course-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.course-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #57068c;
+  border-radius: 999px;
+  background: #fff;
+  color: #57068c;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.course-chip.active {
+  background: #57068c;
+  color: #fff;
+}
+
+.course-chip:focus-visible {
+  outline: 3px solid #57068c;
+  outline-offset: 3px;
+}
+
+.field-help {
+  display: block;
+  margin-top: 6px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
