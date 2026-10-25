@@ -71,7 +71,7 @@ def request_detail(request_id):
 @app.route("/requests/<request_id>/join", methods=["POST"])
 def join_request(request_id):
     pid = oid(request.form["profile_id"])
-    requests.update_one({"_id": oid(request_id)}, {"$addToSet": {"joined_ids": pid}})
+    requests.update_one({"_id": oid(request_id), "organizer_id": {"$ne": pid}}, {"$addToSet": {"joined_ids": pid}})
     return redirect(url_for("request_detail", request_id=request_id, joined=request.form["profile_id"]))
 
 
