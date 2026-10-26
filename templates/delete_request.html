@@ -1,12 +1,18 @@
 {% extends "base.html" %}
-
-{% block title %}Delete session - StudyBuddy{% endblock %}
-
+{% block title %}Delete Session - StudyBuddy{% endblock %}
 {% block content %}
-<h1>Delete this session?</h1>
+
+<a href="{{ url_for('request_detail', request_id=item._id) }}" class="back">
+  ← Back to Session
+</a>
+
+<h1>Delete Study Session</h1>
 
 <div class="delete-confirmation">
-  <p><strong>Topic:</strong> {{ item.topic }}</p>
+  <h2>Are you sure you want to delete this session?</h2>
+
+<p><strong>Course:</strong> {{ item.course }}</p>
+<p><strong>Topic:</strong> {{ item.topic }}</p>
   <p><strong>When:</strong> {{ item.time }}</p>
   <p><strong>Where:</strong> {{ item.location }}</p>
 
