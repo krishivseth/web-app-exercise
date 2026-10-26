@@ -118,6 +118,14 @@ class SignupForm(FlaskForm):
         if not split_courses(field.data):
             raise ValidationError("Enter at least one course code.")
 
+class EditProfileForm(FlaskForm):
+    name = SignupForm.name
+    courses = SignupForm.courses
+    availability = SignupForm.availability
+    bio = SignupForm.bio
+
+    validate_courses = SignupForm.validate_courses
+
 class LoginForm(FlaskForm):
     email = EmailField(
         "Email",
@@ -477,6 +485,45 @@ def profile_detail(profile_id):
         abort(404)
     posted = list(requests.find({"organizer_id": person["_id"]}).sort("created_at", -1))
     return render_template("profile.html", person=person, posted=posted)
+
+@app.route("/profiles/<profile_id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_profile(profile_id):
+    person = profiles.find_one({"_id": oid(profile_id)})
+
+    if person is None:
+        abort(404)
+
+    if person["_id"] != ObjectId(current_user.id):
+        abort(403)
+
+    form = EditProfileForm(
+        data={
+            "name": person["name"],
+            "courses": ", ".join(person.get("courses", [])),
+            "availability": person.get("availability", ""),
+            "bio": person.get("bio", ""),
+        }
+    )
+
+    if form.validate_on_submit():
+        profiles.update_one(
+            {"_id": person["_id"]},
+            {
+                "$set": {
+                    "name": form.name.data.strip(),
+                    "courses": split_courses(form.courses.data),
+                    "availability": form.availability.data.strip(),
+                    "bio": (form.bio.data or "").strip(),
+                }
+            },
+        )
+
+        return redirect(
+            url_for("profile_detail", profile_id=person["_id"])
+        )
+
+    return render_template("edit_profile.html", form=form, person=person)
 
 
 @app.errorhandler(404)

@@ -17,6 +17,10 @@
 <p>{{ person.bio }}</p>
 {% endif %}
 
+{% if current_user.is_authenticated and current_user.id == person._id | string %}
+<a class="button" href="{{ url_for('edit_profile', profile_id=person._id) }}">Edit profile</a>
+{% endif %}
+
 <h2>Sessions posted</h2>
 {% if posted %}
 <ul class="cards">
