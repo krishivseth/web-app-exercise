@@ -467,7 +467,24 @@ def profile_list():
 
 @app.route("/profiles/new", methods=["GET", "POST"])
 def new_profile():
-    return redirect(url_for("signup"))
+    if request.method == "POST":
+
+        doc = {
+            "name": request.form["name"],
+            "courses": split_courses(request.form["courses"]),
+            "availability": request.form["availability"],
+            "bio": request.form["bio"]
+        }
+
+        res = profiles.insert_one(doc)
+
+        return redirect(
+            url_for(
+                "profile_detail",
+                profile_id = res.insert_id
+            )
+        )
+    return render_template("new_profile.html")
 
 
 @app.route("/profiles/<profile_id>")
