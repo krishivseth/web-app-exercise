@@ -20,7 +20,8 @@
     This action cannot be undone.
   </p>
 
-  <form method="POST">
+  <form method="post">
+    {{ form.hidden_tag() }}
     <button type="submit" class="delete-button">
       Yes, Delete Session
     </button>
@@ -31,5 +32,4 @@
     Cancel
   </a>
 </div>
-
 {% endblock %}
