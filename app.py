@@ -481,7 +481,7 @@ def new_profile():
         return redirect(
             url_for(
                 "profile_detail",
-                profile_id = res.insert_id
+                profile_id = res.inserted_id
             )
         )
     return render_template("new_profile.html")
