@@ -298,6 +298,7 @@ def nice_time(value):
 def home():
     selected_course = request.args.get("course", "").strip().upper()
     show_my_courses = request.args.get("scope") == "mine"
+    search_query = request.args.get("q", "").strip()
 
     if show_my_courses and not current_user.is_authenticated:
         return redirect(url_for("login"))
@@ -324,6 +325,16 @@ def home():
     upcoming = {"$gte": datetime.now(timezone.utc)}
     query["starts_at"] = upcoming
 
+    if search_query:
+        import re
+        pattern = re.escape(search_query)
+        query["$or"] = [
+            {"course": {"$regex": pattern, "$options": "i"}},
+            {"topic": {"$regex": pattern, "$options": "i"}},
+            {"description": {"$regex": pattern, "$options": "i"}},
+            {"location": {"$regex": pattern, "$options": "i"}},
+        ]
+
     items = list(requests.find(query).sort([("starts_at", 1), ("_id", 1),]))
 
     courses = sorted(
@@ -348,6 +359,7 @@ def home():
         selected_course=selected_course,
         show_my_courses=show_my_courses,
         my_courses=my_courses,
+        search_query=search_query,
     )
 
 @app.route("/requests/new", methods=["GET", "POST"])

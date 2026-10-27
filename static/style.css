@@ -219,3 +219,70 @@ button, .button {
   font-size: 14px;
   text-decoration: none;
 }
+/* Search Bar */
+.search-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 750px;
+    margin: 24px 0 30px;
+}
+
+.search-form input[type="search"] {
+    display: block;
+    flex: 1 1 0;
+    width: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 14px 18px;
+    border: 1px solid #d8d3e3;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #222222;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-form input[type="search"]:focus {
+    border-color: #7155a5;
+    box-shadow: 0 0 0 3px rgba(113, 85, 165, 0.12);
+}
+
+.search-form button {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 110px;
+    padding: 14px 22px;
+    margin: 0;
+    border: none;
+    border-radius: 12px;
+    background: #7155a5;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background: #5c438e;
+}
+
+@media (max-width: 480px) {
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-form input[type="search"] {
+        flex: none;
+        width: 100%;
+    }
+
+    .search-form button {
+        width: 100%;
+    }
+}
