@@ -30,7 +30,7 @@
 
 <nav class="course-filters" aria-label="Filter sessions by course">
   <a
-    href="{{ url_for('home') }}"
+    href="{{ url_for('home', q=search or None) }}"
     class="course-chip{% if not selected_course and not show_my_courses %} active{% endif %}"
     {% if not selected_course and not show_my_courses %}aria-current="page"{% endif %}
   >
@@ -39,7 +39,7 @@
 
   {% if current_user.is_authenticated %}
   <a
-    href="{{ url_for('home', scope='mine') }}"
+    href="{{ url_for('home', scope='mine', q=search or None) }}"
     class="course-chip{% if show_my_courses %} active{% endif %}"
     {% if show_my_courses %}aria-current="page"{% endif %}
   >
@@ -49,7 +49,7 @@
 
   {% for course in courses %}
   <a
-    href="{{ url_for('home', course=course) }}"
+    href="{{ url_for('home', course=course, q=search or None) }}"
     class="course-chip{% if selected_course == course and not show_my_courses %} active{% endif %}"
     {% if selected_course == course and not show_my_courses %}aria-current="page"{% endif %}
   >
