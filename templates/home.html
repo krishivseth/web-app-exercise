@@ -59,7 +59,14 @@
 </nav>
 
 {% if not items %}
-  {% if show_my_courses %}
+  {% if search and (my_courses or not show_my_courses) %}
+  <p class="empty">
+    No sessions match "{{ search }}"{% if show_my_courses %} in your courses{% elif selected_course %} in {{ selected_course }}{% endif %}.
+    <a href="{{ url_for('home', scope='mine' if show_my_courses else None, course=selected_course or None) }}">Clear search.</a>
+  </p>
+
+  {% elif show_my_courses %}
+
     {% if my_courses %}
     <p class="empty">
       No study sessions match your courses yet.
