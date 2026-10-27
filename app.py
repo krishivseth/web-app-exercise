@@ -361,6 +361,24 @@ def home():
         search=search,
 
     )
+@app.route("/my-sessions")
+@login_required
+def my_sessions():
+    user_id = ObjectId(current_user.id)
+
+    hosting = list(
+        requests.find({"organizer_id": user_id}).sort("starts_at", 1)
+    )
+
+    joined = list(
+        requests.find({"joined_ids": user_id}).sort("starts_at", 1)
+    )
+
+    return render_template(
+        "my_sessions.html",
+        hosting=hosting,
+        joined=joined,
+    )
 
 @app.route("/requests/new", methods=["GET", "POST"])
 @login_required

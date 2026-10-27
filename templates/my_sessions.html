@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}My Sessions - StudyBuddy{% endblock %}
+
+{% block content %}
+<h1>My Sessions</h1>
+<p>View the study sessions you're hosting and attending.</p>
+
+<h2>Hosting</h2>
+{% if hosting %}
+<ul class="cards">
+  {% for item in hosting %}
+  <li class="card">
+    <a href="{{ url_for('request_detail', request_id=item._id) }}">
+      <span class="tag">{{ item.course }}</span>
+      <strong>{{ item.topic }}</strong>
+      <span class="meta">{{ item.time }} at {{ item.location }}</span>
+      <span class="meta">{{ item.joined_ids | length }} joined</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">You haven't created any study sessions yet.</p>
+{% endif %}
+
+<h2>Joined</h2>
+{% if joined %}
+<ul class="cards">
+  {% for item in joined %}
+  <li class="card">
+    <a href="{{ url_for('request_detail', request_id=item._id) }}">
+      <span class="tag">{{ item.course }}</span>
+      <strong>{{ item.topic }}</strong>
+      <span class="meta">{{ item.time }} at {{ item.location }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">You haven't joined any study sessions yet.</p>
+{% endif %}
+{% endblock %}
