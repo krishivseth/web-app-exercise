@@ -2,13 +2,22 @@
 
 A little exercise to build a web application following an agile development process. See the [instructions](./instructions.md) for more detail.
 
+## Team members
+
+- [Krishiv Seth](https://github.com/krishivseth)
+- [manzim7](https://github.com/manzim7)
+- [ogngnaoh](https://github.com/ogngnaoh)
+- [sallyhegab](https://github.com/sallyhegab)
+- [YusefMoustafa](https://github.com/YusefMoustafa)
+
+
 ## Product vision statement
 
 StudyBuddy helps students find classmates to study with by letting them post, browse, and search study sessions for the courses they are taking.
 
 ## User stories
 
-All user stories are tracked as GitHub Issues: https://github.com/krishivseth/web-app-exercise/issues
+All user stories are tracked as [GitHub Issues](https://github.com/krishivseth/web-app-exercise/issues).
 
 ## Steps necessary to run the software
 
@@ -70,12 +79,11 @@ For a local MongoDB server use `MONGO_URI=mongodb://localhost:27017`.
 flask --app app run --debug
 ```
 
-Open http://127.0.0.1:5000 in a browser. The app is designed for a phone-sized screen, so use the browser's mobile view (in Chrome, open DevTools and press the device toolbar toggle) for the intended layout.
+Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in a browser. The app is designed for a phone-sized screen, so use the browser's mobile view (in Chrome, open DevTools and press the device toolbar toggle) for the intended layout.
 
 ## Task boards
 
-Both sprint boards are linked from the repository Projects page: https://github.com/krishivseth/web-app-exercise/projects
+Both sprint boards are linked from the repository [Projects page](https://github.com/krishivseth/web-app-exercise/projects).
 
-StudyBuddy - Sprint 1: https://github.com/users/krishivseth/projects/2
-
-StudyBuddy - Sprint 2: https://github.com/users/krishivseth/projects/3
+- [StudyBuddy - Sprint 1](https://github.com/users/krishivseth/projects/2)
+- [StudyBuddy - Sprint 2](https://github.com/users/krishivseth/projects/3)

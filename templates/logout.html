@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Log out - StudyBuddy{% endblock %}
+
+{% block content %}
+<h1>Log out?</h1>
+<p>You are signed in as {{ current_user.name }}.</p>
+
+<form method="post" class="form">
+  {{ form.hidden_tag() }}
+  <button type="submit">Log out</button>
+</form>
+
+<a href="{{ url_for('home') }}">Stay signed in</a>
+{% endblock %}
