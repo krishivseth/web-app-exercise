@@ -5,6 +5,29 @@
 
 <p>Upcoming sessions, soonest first. Times are shown in NY time.</p>
 
+<form method="get" action="{{ url_for('home') }}" class="form" role="search">
+  <label for="search">
+    Search by course or topic
+    <input
+      type="search"
+      id="search"
+      name="q"
+      value="{{ search }}"
+      placeholder="e.g. CSCI-UA 201 or dynamic"
+      maxlength="100"
+      autocomplete="off"
+    >
+  </label>
+
+  {% if show_my_courses %}
+  <input type="hidden" name="scope" value="mine">
+  {% elif selected_course %}
+  <input type="hidden" name="course" value="{{ selected_course }}">
+  {% endif %}
+
+  <button type="submit">Search</button>
+</form>
+
 <nav class="course-filters" aria-label="Filter sessions by course">
   <a
     href="{{ url_for('home') }}"
