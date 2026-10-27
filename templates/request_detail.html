@@ -4,7 +4,7 @@
 <a class="back" href="{{ url_for('home') }}">Back to feed</a>
 <span class="tag">{{ item.course }}</span>
 <h1>{{ item.topic }}</h1>
-<p class="meta">{{ item.time }} at {{ item.location }}</p>
+<p class="meta">{{ item.time | nice_time }} · {{ item.location }}</p>
 
 <h2>Organizer</h2>
 {% if organizer %}
@@ -23,6 +23,9 @@
 {% else %}
 <p class="empty">Nobody has joined yet.</p>
 {% endif %}
+{% for p in joined if p._id | string == request.args.get('joined') %}
+<p class="tag">You joined as {{ p.name }}</p>
+{% endfor %}
 
 {% if not current_user.is_authenticated %}
 <p>

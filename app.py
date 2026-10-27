@@ -285,6 +285,15 @@ class JoinRequestForm(FlaskForm):
 class DeleteRequestForm(FlaskForm):
     pass
 
+@app.template_filter("nice_time")
+def nice_time(value):
+    try:
+        when = datetime.strptime(value, "%Y-%m-%dT%H:%M")
+    except (TypeError, ValueError):
+        return value
+    return when.strftime("%a, %b %d at %I:%M %p").replace(" 0", " ")
+
+
 @app.route("/")
 def home():
     selected_course = request.args.get("course", "").strip().upper()
