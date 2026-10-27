@@ -14,7 +14,7 @@ Four people, two one-week sprints. Each person owns a slice of the app end to en
 | Profile detail | `/profiles/<id>` | displays data | #4 |
 | Edit profile | `/profiles/<id>/edit` | edits data | #5 (sprint 2) |
 | Delete session | `/requests/<id>/delete` | deletes data | #6 (sprint 2) |
-| Search by course | `/search` | searches data | #7 (sprint 2) |
+| Search by course or topic | `/?q=` | searches data | #7 (sprint 2) |
 | Sign up and log in | `/signup`, `/login` | flask-login | #8 (sprint 2) |
 
 ## Sprint 1 (due now)
@@ -29,7 +29,8 @@ Person 4, feed and polish. Owns `/` (issue #3) and the mobile CSS pass. Sorts th
 
 ## Sprint 2
 
-Person 1 builds search by course (#7), a `/search?course=` route that queries `requests` with a case-insensitive match and reuses the feed template.
+Person 1 builds search by course (#7), a search box on the feed (`/?q=`) that matches course or topic with a case-insensitive regex and combines with the course chips and My courses filter.
+
 
 Person 2 builds delete (#6), a confirm screen at `/requests/<id>/delete` plus the POST that removes the document, only allowed for the organizer.
 
