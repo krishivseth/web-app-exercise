@@ -1,3 +1,4 @@
+import re
 import os
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
@@ -289,6 +290,8 @@ class DeleteRequestForm(FlaskForm):
 def home():
     selected_course = request.args.get("course", "").strip().upper()
     show_my_courses = request.args.get("scope") == "mine"
+    search = request.args.get("q", "").strip()[:100]
+
 
     if show_my_courses and not current_user.is_authenticated:
         return redirect(url_for("login"))
@@ -311,6 +314,13 @@ def home():
 
     elif selected_course:
         query["course"] = selected_course
+        
+    if search:
+        pattern = {"$regex": re.escape(search), "$options": "i"}
+        query["$or"] = [
+            {"course": pattern},
+            {"topic": pattern},
+        ]
 
     upcoming = {"$gte": datetime.now(timezone.utc)}
     query["starts_at"] = upcoming
@@ -339,6 +349,8 @@ def home():
         selected_course=selected_course,
         show_my_courses=show_my_courses,
         my_courses=my_courses,
+        search=search,
+
     )
 
 @app.route("/requests/new", methods=["GET", "POST"])
